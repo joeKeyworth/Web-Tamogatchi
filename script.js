@@ -4,17 +4,34 @@ const washBtn = document.querySelector("#action-wash");
 const feedBtn = document.querySelector("#action-feed");
 const playBtn = document.querySelector("#action-play");
 const startBtn = document.querySelector("#action-menu-start-game");
-//
-//Constants for main bar
-//const dirtHp = document.querySelector("#dirt-hp");
-//const hungerHp = document.querySelector("#hunger-hp");
-//const playHp = document.querySelector("#play-hp");
-//const scoreBar = document.querySelector("#score");
 
+const play1 = document.getElementById("play1");
+const play2 = document.getElementById("play2");
+const play3 = document.getElementById("play3");
+const play4 = document.getElementById("play4");
+
+const hunger1 = document.getElementById("hunger1");
+const hunger2 = document.getElementById("hunger2");
+const hunger3 = document.getElementById("hunger3");
+const hunger4 = document.getElementById("hunger4");
+const hunger5 = document.getElementById("hunger5");
+
+const dirtiness1 = document.getElementById("dirtiness1");
+const dirtiness2 = document.getElementById("dirtiness2");
+const dirtiness3 = document.getElementById("dirtiness3");
+//
 const dirtHp = 300;
 const hungerHp = 300;
 const playHp = 300;
 const scoreBar = 0;
+
+let playTier = 4;
+let hungerTier = 5;
+let dirtTier = 3;
+
+const playIcons = [play4,play3,play2,play1];
+const hungerIcons = [hunger5,hunger4,hunger3,hunger2,hunger1];
+const dirtIcons = [dirtiness3,dirtiness2,dirtiness1];
 //
 //Game settings
 const maxdirt = 300;
@@ -32,15 +49,27 @@ function Tamagotchi() {
 
 //Abilities
 Tamagotchi.prototype.actionWash = function() {
-    this.dirt=maxdirt
+    this.dirt=maxdirt;
+	dirtTier = 3;
+	for(let i = 0; i < dirtIcons.length; i++){
+		dirtIcons[i].style.visibility = "visible";
+	}
 };
 
 Tamagotchi.prototype.actionEat = function() {
 	this.hunger=maxHunger
+	hungerTier = 5;
+	for(let i = 0; i < hungerIcons.length; i++){
+		hungerIcons[i].style.visibility = "visible";
+	}
 };
 
 Tamagotchi.prototype.actionPlay = function() {
-	this.play=maxPlay
+	this.play=maxPlay;
+	playTier = 4;
+	for(let i = 0; i < playIcons.length; i++){
+		playIcons[i].style.visibility = "visible";
+	}
 };
 
 Tamagotchi.prototype.tick = function() {
@@ -90,7 +119,7 @@ function startGame() {
 
 	//Main function of tamagotchi
 	function core() {
-		//console.log(tmgch);
+		console.log(tmgch);
 		dirtHpCount = (tmgch.dirt / maxdirt * 100).toFixed(2);
 		hungerHpCount = (tmgch.hunger / maxHunger * 100).toFixed(2);
 		playHpCount = (tmgch.play / maxPlay * 100).toFixed(2);
@@ -108,40 +137,13 @@ function startGame() {
 			alert('Your score: ' + score + '\n ╭(×_×)╮');
 		}
 
-		//Max health percentage (real)
-		//Little help for player
-		if (tmgch.dirt >= (maxdirt + (maxdirt / 100 * 20))) {
-			tmgch.dirt = maxdirt + (maxdirt / 100 * 20);
-		}
-
-		if (tmgch.hunger >= (maxHunger + (maxHunger / 100 * 20))) {
-			tmgch.hunger = maxHunger + (maxHunger / 100 * 20);
-		}
-
-		if (tmgch.play >= (maxPlay + (maxPlay / 100 * 20))) {
-			tmgch.play = maxPlay + (maxPlay / 100 * 20);
-		}
-
-		//Max health percentage (for player)
-		if ((tmgch.dirt / maxdirt * 100) > 100) {
-			dirtHpCount = 100;
-		}
-		if ((tmgch.hunger / maxHunger * 100) > 100) {
-			hungerHpCount = 100;
-		}
-		if ((tmgch.play / maxPlay * 100) > 100) {
-			playHpCount = 100;
-		}
-
-		//Show HP on screen
-		dirtHp.innerHTML = dirtHpCount;
-		hungerHp.innerHTML = hungerHpCount;
-		playHp.innerHTML = playHpCount;
-
 		//Remove HP every tick
 		tmgch.tick();
 
 		moveRat();
+		hungerCheck();
+		playCheck();
+		dirtCheck();
 
 
 	}
@@ -226,4 +228,95 @@ function moveRat(){
 		rat.style.top = yPos + "px";
 		rat.style.left = xPos + "px";
 		return;
+}
+
+
+
+//status checking functions
+
+
+function hungerCheck(){
+	//maxhunger = 300
+	//threshholds in intervals of 60
+	//80% is 240
+	//60% is 180
+	//40% is 120
+	//20% is 60
+	//0% is 0
+
+	//80-100 has 5 icons
+	//60-80 has 4
+	//40-60 has 3
+	//20-40 has 2
+	//0-20 has 1
+
+	switch(true){
+		case (tmgch.hunger < 60):
+			if(hungerTier > 1){
+				hungerTier = 1;
+				hungerIcons[1].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.hunger < 120):
+			if(hungerTier > 2){
+				hungerTier = 2;
+				hungerIcons[2].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.hunger < 180):
+			if(hungerTier > 3){
+				hungerTier = 3;
+				hungerIcons[3].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.hunger < 240):
+			if(hungerTier > 4){
+				hungerTier = 4;
+				hungerIcons[4].style.visibility = "hidden";
+			}
+			return;
+	}
+	return;
+}
+
+function playCheck(){
+	switch(true){
+		case (tmgch.play < 75):
+			if(playTier > 1){
+				playTier = 1;
+				playIcons[1].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.play < 150):
+			if(playTier > 2){
+				playTier = 2;
+				playIcons[2].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.play < 225):
+			if(playTier > 3){
+				playTier = 3;
+				playIcons[3].style.visibility = "hidden";
+			}
+			return;
+	}
+	return;
+}
+
+function dirtCheck(){
+	switch(true){
+		case (tmgch.dirt < 100):
+			if(dirtTier > 1){
+				dirtTier = 1;
+				dirtIcons[1].style.visibility = "hidden";
+			}
+			return;
+		case (tmgch.dirt < 200):
+			if(dirtTier > 2){
+				dirtTier = 2;
+				dirtIcons[2].style.visibility = "hidden";
+			}
+			return;
+	}
+	return;
 }
