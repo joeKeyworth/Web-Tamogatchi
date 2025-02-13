@@ -10,16 +10,19 @@
 <!-- partial:index.partial.html -->
 <div class="main-menu-screen">
 		<div class="menu">
-			<h1>Tamagotchi Project</h1>
-			<h3>I love u lu <3</h3>
+			<h1>Happy Valentines' Day Lu !!</h1>
+			<h3>Ever since the day I met you my life has become filled with so much love and care,
+				<br>I know that the next three years will be just as wonderful as the last have been, and that we will keep growing together!
+				<br>I love you to the moon and back, mwah!!!</h3>
 			<div class="menu-buttons">
-				<a href="#" id="action-menu-start-game">Start</a>
+				<input type= "image" src="./img/start_lit.png" onmouseover="this.src='./img/start_dark.png'" onmouseleave="this,src='./img/start_lit.png'" onmousedown="this.src='./img/start_dark_small.png'" onmouseup="this.src='./img/start_dark.png'" href="#" id="action-menu-start-game">
 			</div>
 		</div>
 	</div>
 
 	<div class="game-screen">
 		<div class="tamagotchi">
+			<img src="./img/Cheese.png" id="food">
 			<div class="health-icons">
 					<img src = "./img/hearts.png" id="play4">
 					<img src = "./img/hearts.png" id="play3">
@@ -35,16 +38,15 @@
 					<img src = "./img/brush.png" id="dirtiness3">
 					<img src = "./img/brush.png" id="dirtiness2">
 					<img src = "./img/brush.png" id="dirtiness1">
-			</div>
-			<p><span id="name">Rat <3</span></p>
-		  	<img src="./img/ratRight.png" id="t-body" alt="Movable Image">
+			</div>	  	
 
 		  	<div class="buttons">
-				<a href="#" id="action-play">Play</a>
-				<a href="#" id="action-feed">Feed</a>
-				<a href="#" id="action-wash">Wash</a>
+				<input type="image" href="#" id="action-play" src="./img/play_lit.png" onmouseover="this.src='./img/play_dark.png'" onmouseleave="this,src='./img/play_lit.png'" onmousedown="this.src='./img/play_dark_small.png'" onmouseup="this.src='./img/play_dark.png'">
+				<input type="image" href="#" id="action-feed" src="./img/feed_lit.png" onmouseover="this.src='./img/feed_dark.png'" onmouseleave="this,src='./img/feed_lit.png'" onmousedown="this.src='./img/feed_dark_small.png'" onmouseup="this.src='./img/feed_dark.png'">
+				<input type="image" href="#" id="action-wash" src="./img/wash_lit.png" onmouseover="this.src='./img/wash_dark.png'" onmouseleave="this,src='./img/wash_lit.png'" onmousedown="this.src='./img/wash_dark_small.png'" onmouseup="this.src='./img/wash_dark.png'">
 
 			</div>
+			<img src="./img/ratRight.png" id="t-body" alt="Movable Image">
 		</div>
 	</div>
 <!-- partial -->

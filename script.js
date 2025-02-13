@@ -19,6 +19,8 @@ const hunger5 = document.getElementById("hunger5");
 const dirtiness1 = document.getElementById("dirtiness1");
 const dirtiness2 = document.getElementById("dirtiness2");
 const dirtiness3 = document.getElementById("dirtiness3");
+
+const food = document.getElementById("food");
 //
 const dirtHp = 300;
 const hungerHp = 300;
@@ -32,6 +34,15 @@ let dirtTier = 3;
 const playIcons = [play4,play3,play2,play1];
 const hungerIcons = [hunger5,hunger4,hunger3,hunger2,hunger1];
 const dirtIcons = [dirtiness3,dirtiness2,dirtiness1];
+
+let isEating = false;
+let eatTicks = 0;
+
+let isPlaying = false;
+let playTicks = 0;
+
+let isWashing = false;
+let washTicks = 0;
 //
 //Game settings
 const maxdirt = 300;
@@ -49,6 +60,9 @@ function Tamagotchi() {
 
 //Abilities
 Tamagotchi.prototype.actionWash = function() {
+	if(isEating || isWashing || isPlaying){
+		return;
+	}
     this.dirt=maxdirt;
 	dirtTier = 3;
 	for(let i = 0; i < dirtIcons.length; i++){
@@ -57,14 +71,34 @@ Tamagotchi.prototype.actionWash = function() {
 };
 
 Tamagotchi.prototype.actionEat = function() {
+	if(isEating || isWashing || isPlaying){
+		return;
+	}
+
+	const rat = document.getElementById('t-body');
+	let foodpos = Math.floor(Math.random() * 1000) + 200;
+	food.style.left = foodpos + "px";
+	food.style.visibility = "visible";
+	console.log(rat.offsetLeft);
+	console.log(food.offsetLeft);
+	if(rat.offsetLeft > food.offsetLeft){
+		rat.src = './img/ratSitLeft.png';
+	} else{
+		rat.src = './img/ratSitRight.png';
+	}
+	
 	this.hunger=maxHunger
 	hungerTier = 5;
 	for(let i = 0; i < hungerIcons.length; i++){
 		hungerIcons[i].style.visibility = "visible";
 	}
+	isEating = true;
 };
 
 Tamagotchi.prototype.actionPlay = function() {
+	if(isEating || isWashing || isPlaying){
+		return;
+	}
 	this.play=maxPlay;
 	playTier = 4;
 	for(let i = 0; i < playIcons.length; i++){
@@ -110,6 +144,7 @@ function MainMenu() {
 }
 
 function startGame() {
+	food.style.visibility = "hidden";
 	document.querySelector(".game-screen").classList.toggle("hide");
 	document.querySelector(".main-menu-screen").classList.toggle("hide");
 
@@ -119,7 +154,7 @@ function startGame() {
 
 	//Main function of tamagotchi
 	function core() {
-		console.log(tmgch);
+
 		dirtHpCount = (tmgch.dirt / maxdirt * 100).toFixed(2);
 		hungerHpCount = (tmgch.hunger / maxHunger * 100).toFixed(2);
 		playHpCount = (tmgch.play / maxPlay * 100).toFixed(2);
@@ -140,10 +175,34 @@ function startGame() {
 		//Remove HP every tick
 		tmgch.tick();
 
-		moveRat();
 		hungerCheck();
 		playCheck();
 		dirtCheck();
+		if(isEating){
+			if(eatTicks > 150){
+				food.style.visibility = "hidden";
+				food.style.top += 100;
+				isEating = false;
+				eatTicks = 0;
+				const rat = document.getElementById('t-body');
+				if(direction){
+					rat.src = './img/ratLeft.png';
+				} else{
+					rat.src = './img/ratRight.png';
+				}
+				
+			} if(eatTicks < 100){
+				eatTicks += 2;
+				food.style.top = eatTicks + 500 + "px";
+			} else{
+				eatTicks +=2;
+			}
+		} else{
+			moveRat();
+		}
+		
+
+
 
 
 	}
@@ -209,9 +268,7 @@ function moveRat(){
 			rat.src = './img/ratRight.png';
 			direction = false;
 		}
-		console.log(xPos);
-		console.log(maxX);
-		console.log(direction);
+
 
 		let Speed = 5;
 		let JumpHig = 10;
@@ -223,7 +280,7 @@ function moveRat(){
 			xPos += Speed;
 		}
 
-		yPos = Math.abs(JumpHig * Math.sin(JumpDis * xPos)) * (-1) + 400;
+		yPos = Math.abs(JumpHig * Math.sin(JumpDis * xPos)) * (-1) + 600;
 	
 		rat.style.top = yPos + "px";
 		rat.style.left = xPos + "px";

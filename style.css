@@ -12,7 +12,7 @@
 body {
   background-color: #fafafa;
   transition: background-color .3s;
-  /*background-image: url('./img/Background.jpg');*/
+  background-image: url('./img/Background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
@@ -21,12 +21,17 @@ body {
 h1, h2 {
   font-family: 'DM Mono', monospace;
   font-weight: 500;
+  color:black;
+  background-color:peachpuff;
 }
 
 h3 {
   margin-top: 20px;
   font-family: 'DM Mono', monospace;
   font-weight: 300;
+  color:black;
+  background-color:peachpuff;
+  
 }
 
 .hide {
@@ -49,7 +54,7 @@ h3 {
   position: absolute;
   display: block;
   width: 100%;
-  top: 50vh;
+  top: 20vh;
   transform: translateY(-50%);
   font-size: 80px;
   text-align: center;
@@ -57,20 +62,17 @@ h3 {
 
 #t-body {
   position:absolute;
+  top: 700px;
+  left: 200px;
+}
+
+#food{
+  position:absolute;
   top: 400px;
   left: 200px;
 }
 
-#name {
-  display: inline-block;
-  margin-bottom: 300px;
-  color: #fff;
-  padding: 5px 10px;
-  font-size: 30px;
-  background-color: #131313;
-  font-family: 'DM Mono', monospace;
-  font-weight: 500;
-}
+
 
 #play {
   float:left;
